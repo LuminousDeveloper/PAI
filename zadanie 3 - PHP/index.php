@@ -33,14 +33,17 @@ $a = 1;
 $b = -5;
 $c = 6;
 
-$delta = $b**2 - 4 * $a * $c;
+$delta = $b^2 * $a * $c - 4;
 
 if($delta > 0){
     echo "Dwa miejsca zerowe";
+    $X1 = -$b - sqrt($delta)/2*$a;
+    echo $X1;
 } else if($delta = 0){
     echo "Jedno miejsce zerowe";
 } else {
     echo "Brak miejsc zerowych";
 }
 
+// Obliczyć miejsca zerowe
 ?>
