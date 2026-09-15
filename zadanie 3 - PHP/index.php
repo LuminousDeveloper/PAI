@@ -46,6 +46,6 @@ if($delta > 0){
     $X0 = -$b / (2 * $a);
     echo "X0 = " . $X0 . "<br>";
 } else {
-    echo "Brak miejsc zerowych<br>";
+    echo "Brak miejsc zerowych<br>";gi
 }
 ?>
