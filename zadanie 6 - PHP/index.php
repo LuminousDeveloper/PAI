@@ -60,10 +60,10 @@ foreach($osoby as $wiersz){
     ];
 
     // Zsumować wszystkie wartości w ramach jednej kolumny czyli 1,5,9,13 a jej rezultat ma być zapisany w tablicy jednowymiarowej
-    $suma_kolumny = [];
-    for($i = 0; $i < count($array4x4); $i++){
-        $suma_kolumny[] = $array4x4[$i][0];
-    }
+    $suma_kolumny = 0;
+for ($i = 0; $i < count($array4x4); $i++) {
+    $suma_kolumny += $array4x4[$i][0];  // 1+5+9+13 = 28
+}   
     var_dump($suma_kolumny);
 
     // Diagonalna = przekątna
