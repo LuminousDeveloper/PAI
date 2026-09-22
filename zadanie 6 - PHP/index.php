@@ -98,7 +98,4 @@ for ($i = 0; $i < count($array4x4); $i++) {
             }
             echo "<br>";
         }
-    }
-
-    
-?>
+    }?>  
