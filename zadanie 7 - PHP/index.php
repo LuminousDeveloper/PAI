@@ -34,7 +34,7 @@
         return $a * $b;
     }
 
-    //Napisz funkcję zamienNaWielkie(string $tekst): string, która zwraca tekst wielkimi literami.
+    //Funkcja zamienNaWielkie(string $tekst): string, która zwraca tekst wielkimi literami.
     function zamienNaWielkie(string $tekst): string {
         return strtoupper($tekst);
     }
