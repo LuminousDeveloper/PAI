@@ -1,21 +1,21 @@
 <?php
 
 // Metody HTTP:
-$_GET;
-$_POST;
-$_PUT;
-$_DELETE;
+// $_GET;
+// $_POST;
+// $_PUT;
+// $_DELETE;
 
-$_POST['imie'] = "Gracjan";
+// $_POST['imie'] = "Gracjan";
 
-//Zmienne superglobalne:
-$_GET;
-$_POST;
-$_SESSION;
+// //Zmienne superglobalne:
+// $_GET;
+// $_POST;
+// $_SESSION;
 
 
-echo $_GET["name"];
-GET: localhost:8080/index.php?name=Gracjan&surname=Kowalski
+// echo $_GET["name"];
+// GET: localhost:8080/index.php?name=Gracjan&surname=Kowalski
 
 
 // GET używany gdy informacja nie musi być poufna i może być przechowywana w historii przeglądarki. Informacja jest w linku
@@ -24,4 +24,6 @@ GET: localhost:8080/index.php?name=Gracjan&surname=Kowalski
 
 // Request -> zapytanie
 // Response -> odpowiedź
+
+
 ?>
