@@ -8,3 +8,12 @@ document.getElementById("calculate").onclick = function() {
     let result = price * amount
     document.getElementById("result").textContent = "Cena to: " + result + " zł"
 }
+
+document.getElementById("oblicz").onclick = function() {
+    let length = document.getElementById("length").value
+    let width = document.getElementById("width").value
+    let tile = document.getElementById("title").value
+    let area = length * width
+    let potrzebowanePłytki = Math.ceil(area / tile)
+    alert("Potrzebujesz " + potrzebowanePłytki + " płytek.")
+}
