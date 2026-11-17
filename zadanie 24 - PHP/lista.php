@@ -25,7 +25,6 @@ if ($dbExists) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista gier - Baza gier komputerowych</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php include 'nav.php'; ?>
@@ -34,24 +33,24 @@ if ($dbExists) {
         <h1>Lista gier</h1>
 
         <?php if (!$dbExists): ?>
-            <p class="komunikat komunikat-info">
+            <p>
                 Baza danych jeszcze nie istnieje. Najpierw
                 <a href="utworz.php">utwórz bazę i tabelę</a>.
             </p>
         <?php else: ?>
             <?php if ($komunikat !== ''): ?>
-                <p class="komunikat komunikat-<?= $typKomunikatu ?>">
+                <p>
                     <?= htmlspecialchars($komunikat) ?>
                 </p>
             <?php else: ?>
-                <p class="komunikat komunikat-info">
+                <p>
                     Liczba gier w bazie: <strong><?= $liczbaGier ?></strong>
                 </p>
 
                 <?php if ($liczbaGier === 0): ?>
                     <p>Baza jest pusta. <a href="dodaj.php">Dodaj pierwszą grę</a>.</p>
                 <?php else: ?>
-                    <table>
+                    <table border="1">
                         <tr>
                             <th>ID</th>
                             <th>Tytuł</th>

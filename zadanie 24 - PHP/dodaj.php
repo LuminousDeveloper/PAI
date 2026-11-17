@@ -61,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dbExists) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dodaj grę - Baza gier komputerowych</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php include 'nav.php'; ?>
@@ -70,13 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dbExists) {
         <h1>Dodaj grę</h1>
 
         <?php if (!$dbExists): ?>
-            <p class="komunikat komunikat-info">
+            <p>
                 Baza danych jeszcze nie istnieje. Najpierw
                 <a href="utworz.php">utwórz bazę i tabelę</a>.
             </p>
         <?php else: ?>
             <?php if ($komunikat !== ''): ?>
-                <p class="komunikat komunikat-<?= $typKomunikatu ?>">
+                <p>
                     <?= htmlspecialchars($komunikat) ?>
                 </p>
             <?php endif; ?>
@@ -102,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dbExists) {
                 <input type="number" id="ocena" name="ocena" step="0.1"
                        min="0" max="10" value="<?= htmlspecialchars($ocena) ?>" required>
 
-                <button class="przycisk" type="submit">Dodaj grę</button>
+                <button type="submit">Dodaj grę</button>
             </form>
         <?php endif; ?>
     </main>

@@ -122,7 +122,6 @@ if ($dbExists) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edytuj grę - Baza gier komputerowych</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php include 'nav.php'; ?>
@@ -131,13 +130,13 @@ if ($dbExists) {
         <h1>Edytuj grę</h1>
 
         <?php if (!$dbExists): ?>
-            <p class="komunikat komunikat-info">
+            <p>
                 Baza danych jeszcze nie istnieje. Najpierw
                 <a href="utworz.php">utwórz bazę i tabelę</a>.
             </p>
         <?php else: ?>
             <?php if ($komunikat !== ''): ?>
-                <p class="komunikat komunikat-<?= $typKomunikatu ?>">
+                <p>
                     <?= htmlspecialchars($komunikat) ?>
                 </p>
             <?php endif; ?>
@@ -148,7 +147,7 @@ if ($dbExists) {
                 <label for="id">ID gry:</label>
                 <input type="number" id="id" name="id" min="1" required>
 
-                <button class="przycisk" type="submit">Wczytaj grę</button>
+                <button type="submit">Wczytaj grę</button>
             </form>
 
             <?php if ($edycja): ?>
@@ -177,7 +176,7 @@ if ($dbExists) {
                     <input type="number" id="ocena" name="ocena" step="0.1"
                            min="0" max="10" value="<?= htmlspecialchars($gra['ocena']) ?>" required>
 
-                    <button class="przycisk" type="submit" name="zapisz" value="1">Zapisz zmiany</button>
+                    <button type="submit" name="zapisz" value="1">Zapisz zmiany</button>
                 </form>
             <?php endif; ?>
 

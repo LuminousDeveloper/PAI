@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Utwórz bazę - Baza gier komputerowych</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php include 'nav.php'; ?>
@@ -63,13 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </p>
 
         <?php if ($komunikat !== ''): ?>
-            <p class="komunikat komunikat-<?= $typKomunikatu ?>">
+            <p>
                 <?= htmlspecialchars($komunikat) ?>
             </p>
         <?php endif; ?>
 
         <form method="POST" action="<?= basename($_SERVER['PHP_SELF']) ?>">
-            <button class="przycisk" type="submit">Utwórz bazę i tabelę</button>
+            <button type="submit">Utwórz bazę i tabelę</button>
         </form>
 
         <h2>Struktura tabeli gry</h2>

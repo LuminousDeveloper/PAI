@@ -45,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dbExists) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuń grę - Baza gier komputerowych</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php include 'nav.php'; ?>
@@ -54,13 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dbExists) {
         <h1>Usuń grę</h1>
 
         <?php if (!$dbExists): ?>
-            <p class="komunikat komunikat-info">
+            <p>
                 Baza danych jeszcze nie istnieje. Najpierw
                 <a href="utworz.php">utwórz bazę i tabelę</a>.
             </p>
         <?php else: ?>
             <?php if ($komunikat !== ''): ?>
-                <p class="komunikat komunikat-<?= $typKomunikatu ?>">
+                <p>
                     <?= htmlspecialchars($komunikat) ?>
                 </p>
             <?php endif; ?>
@@ -71,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $dbExists) {
                 <label for="id">ID gry:</label>
                 <input type="number" id="id" name="id" min="1" required>
 
-                <button class="przycisk przycisk-usun" type="submit">Usuń grę</button>
+                <button type="submit">Usuń grę</button>
             </form>
 
             <p><a href="lista.php">Zobacz listę gier i ich ID</a></p>
