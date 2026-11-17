@@ -1,60 +1,188 @@
 <?php
-include 'db_connect.php';
-if (!$conn) {
-    die("Najpierw utwórz bazę danych!");
-}
-$gra = null;
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['akcja']) && $_POST['akcja'] == 'aktualizuj') {
-    $id = (int)$_POST['id'];
-    $tytul = $_POST['tytul'];
-    $gatunek = $_POST['gatunek'];
-    $platforma = $_POST['platforma'];
-    $rok = (int)$_POST['rok_wydania'];
-    $ocena = (float)$_POST['ocena'];
-    $sql = "UPDATE gry SET tytul='$tytul', gatunek='$gatunek', platforma='$platforma', rok_wydania=$rok, ocena=$ocena WHERE id=$id";
-    mysqli_query($conn, $sql);
-    echo "Zaktualizowano.";
-}
-$id_edycji = isset($_GET['id']) ? (int)$_GET['id'] : (isset($_POST['id_pobierz']) ? (int)$_POST['id_pobierz'] : 0);
-if ($id_edycji > 0){
-    $res = mysqli_query($conn, "SELECT * FROM gry WHERE id = $id_edycji");
-    if ($res && mysqli_query($conn, "SELECT * FROM gry WHERE id = $id_edycji")) {
-        $gra = mysqli_fetch_assoc($res);
-        if ($gra) {
-            $id = $gra['id'];
-            $tytul = $gra['tytul'];
-            $gatunek = $gra['gatunek'];
-            $platforma = $gra['platforma'];
-            $rok_wydania = $gra['rok_wydania'];
-            $ocena = $gra['ocena'];
+require_once 'db_connect.php';
+
+$komunikat = '';
+$typKomunikatu = '';
+
+$id = 0;
+$edycja = false;
+$gra = [
+    'id' => 0,
+    'tytul' => '',
+    'gatunek' => '',
+    'platforma' => '',
+    'rok_wydania' => '',
+    'ocena' => ''
+];
+
+if ($dbExists) {
+    // Krok 1: wczytanie gry po ID przekazanym metodą GET
+    if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $id = (int) $_GET['id'];
+
+        if ($id <= 0) {
+            $komunikat = "Podaj poprawne ID gry.";
+            $typKomunikatu = "blad";
         } else {
-            echo "<p style='color: red;'>Nie znaleziono gry o podanym ID.</p>";
+            $sql = "SELECT * FROM gry WHERE id = $id";
+            $wynik = mysqli_query($conn, $sql);
+
+            if (!$wynik) {
+                $komunikat = "Błąd pobierania gry: " . mysqli_error($conn);
+                $typKomunikatu = "blad";
+            } elseif (mysqli_num_rows($wynik) === 0) {
+                $komunikat = "Gra o ID " . $id . " nie istnieje.";
+                $typKomunikatu = "blad";
+            } else {
+                $gra = mysqli_fetch_assoc($wynik);
+                $edycja = true;
+            }
         }
-    } else {
-        echo "<p style='color: red;'>Błąd podczas pobierania danych: " . mysqli_error($conn) . "</p>";
+    }
+
+    // Krok 2: zapis zmian przesłanych metodą POST
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = (int) ($_POST['id'] ?? 0);
+
+        $gra['id'] = $id;
+        $gra['tytul'] = trim($_POST['tytul'] ?? '');
+        $gra['gatunek'] = trim($_POST['gatunek'] ?? '');
+        $gra['platforma'] = trim($_POST['platforma'] ?? '');
+        $gra['rok_wydania'] = trim($_POST['rok_wydania'] ?? '');
+        $gra['ocena'] = trim($_POST['ocena'] ?? '');
+
+        $rokLiczba = (int) $gra['rok_wydania'];
+        $ocenaLiczba = (float) str_replace(',', '.', $gra['ocena']);
+
+        if ($id <= 0) {
+            $komunikat = "Podaj poprawne ID gry.";
+            $typKomunikatu = "blad";
+        } elseif ($gra['tytul'] === '' || $gra['gatunek'] === '' || $gra['platforma'] === '' || $gra['rok_wydania'] === '' || $gra['ocena'] === '') {
+            $komunikat = "Wypełnij wszystkie pola formularza.";
+            $typKomunikatu = "blad";
+        } elseif ($rokLiczba < 1901 || $rokLiczba > 2155) {
+            $komunikat = "Rok wydania musi być liczbą z zakresu od 1901 do 2155.";
+            $typKomunikatu = "blad";
+        } elseif (!is_numeric(str_replace(',', '.', $gra['ocena'])) || $ocenaLiczba < 0 || $ocenaLiczba > 10) {
+            $komunikat = "Ocena musi być liczbą z zakresu od 0 do 10.";
+            $typKomunikatu = "blad";
+        } else {
+            // Sprawdzenie, czy rekord nadal istnieje
+            $sql = "SELECT id FROM gry WHERE id = $id";
+            $sprawdzenie = mysqli_query($conn, $sql);
+
+            if (!$sprawdzenie || mysqli_num_rows($sprawdzenie) === 0) {
+                $komunikat = "Gra o ID " . $id . " nie istnieje.";
+                $typKomunikatu = "blad";
+            } else {
+                $tytulSql = mysqli_real_escape_string($conn, $gra['tytul']);
+                $gatunekSql = mysqli_real_escape_string($conn, $gra['gatunek']);
+                $platformaSql = mysqli_real_escape_string($conn, $gra['platforma']);
+                $ocenaSql = number_format($ocenaLiczba, 1, '.', '');
+
+                $sql = "UPDATE gry SET
+                            tytul = '$tytulSql',
+                            gatunek = '$gatunekSql',
+                            platforma = '$platformaSql',
+                            rok_wydania = $rokLiczba,
+                            ocena = $ocenaSql
+                        WHERE id = $id";
+
+                if (mysqli_query($conn, $sql)) {
+                    $komunikat = "Dane gry o ID " . $id . " zostały zaktualizowane.";
+                    $typKomunikatu = "sukces";
+
+                    $sql = "SELECT * FROM gry WHERE id = $id";
+                    $wynik = mysqli_query($conn, $sql);
+
+                    if ($wynik && mysqli_num_rows($wynik) > 0) {
+                        $gra = mysqli_fetch_assoc($wynik);
+                    }
+
+                    $edycja = true;
+                } else {
+                    $komunikat = "Błąd aktualizacji gry: " . mysqli_error($conn);
+                    $typKomunikatu = "blad";
+                    $edycja = true;
+                }
+            }
+        }
+
+        // Przy błędach walidacji również pokazujemy formularz edycji
+        if ($komunikat !== '' && $typKomunikatu === "blad" && $id > 0) {
+            $edycja = true;
+        }
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edytuj grę - Baza gier komputerowych</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php include 'nav.php'; ?>
-    <?php if (!$gra): ?>
-        <form method="POST" action="<?php echo htmlspecialchars(basename($_SERVER['PHP_SELF'])); ?>">
-            <input type="hidden" name="id" value="<?php echo $id; ?>">
-            <label>Tytuł: <input type="text" name="tytul" value="<?php echo $tytul; ?>" required></label><br><br>
-            <label>Gatunek: <input type="text" name="gatunek" value="<?php echo $gatunek; ?>" required></label><br><br>
-            <label>Platforma: <input type="text" name="platforma" value="<?php echo $platforma; ?>" required></label><br><br>
-            <label>Rok wydania: <input type="number" name="rok_wydania" value="<?php echo $rok_wydania; ?>" required></label><br><br>
-            <label>Ocena: <input type="number" step="0.1" name="ocena" value="<?php echo $ocena; ?>" required></label><br><br>
-            <button type="submit">Zaktualizuj grę</button>
-        </form>
-    <?php endif; ?>
+
+    <main>
+        <h1>Edytuj grę</h1>
+
+        <?php if (!$dbExists): ?>
+            <p class="komunikat komunikat-info">
+                Baza danych jeszcze nie istnieje. Najpierw
+                <a href="utworz.php">utwórz bazę i tabelę</a>.
+            </p>
+        <?php else: ?>
+            <?php if ($komunikat !== ''): ?>
+                <p class="komunikat komunikat-<?= $typKomunikatu ?>">
+                    <?= htmlspecialchars($komunikat) ?>
+                </p>
+            <?php endif; ?>
+
+            <h2>Krok 1: wybierz grę</h2>
+
+            <form method="GET" action="<?= basename($_SERVER['PHP_SELF']) ?>">
+                <label for="id">ID gry:</label>
+                <input type="number" id="id" name="id" min="1" required>
+
+                <button class="przycisk" type="submit">Wczytaj grę</button>
+            </form>
+
+            <?php if ($edycja): ?>
+                <h2>Krok 2: zmień dane gry</h2>
+
+                <form method="POST" action="<?= basename($_SERVER['PHP_SELF']) ?>">
+                    <input type="hidden" name="id" value="<?= (int) $gra['id'] ?>">
+
+                    <label for="tytul">Tytuł gry:</label>
+                    <input type="text" id="tytul" name="tytul" maxlength="100"
+                           value="<?= htmlspecialchars($gra['tytul']) ?>" required>
+
+                    <label for="gatunek">Gatunek:</label>
+                    <input type="text" id="gatunek" name="gatunek" maxlength="50"
+                           value="<?= htmlspecialchars($gra['gatunek']) ?>" required>
+
+                    <label for="platforma">Platforma:</label>
+                    <input type="text" id="platforma" name="platforma" maxlength="50"
+                           value="<?= htmlspecialchars($gra['platforma']) ?>" required>
+
+                    <label for="rok_wydania">Rok wydania:</label>
+                    <input type="number" id="rok_wydania" name="rok_wydania"
+                           min="1901" max="2155" value="<?= htmlspecialchars($gra['rok_wydania']) ?>" required>
+
+                    <label for="ocena">Ocena (0 - 10):</label>
+                    <input type="number" id="ocena" name="ocena" step="0.1"
+                           min="0" max="10" value="<?= htmlspecialchars($gra['ocena']) ?>" required>
+
+                    <button class="przycisk" type="submit" name="zapisz" value="1">Zapisz zmiany</button>
+                </form>
+            <?php endif; ?>
+
+            <p><a href="lista.php">Powrót do listy gier</a></p>
+        <?php endif; ?>
+    </main>
+
     <?php include 'footer.php'; ?>
-</body>
-</html>
