@@ -42,16 +42,78 @@ if (isset($_POST['utworz'])) {
 <body>
     <?php include 'nav.php'; ?>
 
-    <h1>Utwórz bazę danych</h1>
+    <header>
+        <h1>Utwórz bazę danych</h1>
+        <p>
+            Ta strona tworzy bazę <strong>gry_db</strong> oraz tabelę
+            <strong>gry</strong>. Jeżeli baza lub tabela już istnieją,
+            nie zostaną nadpisane.
+        </p>
+    </header>
 
-    <p>Kliknij przycisk, aby utworzyć bazę gry_db oraz tabelę gry.</p>
+    <main>
+        <section>
+            <h2>Tworzenie bazy i tabeli</h2>
 
-    <?php if ($komunikat != ''): ?>
-        <p><?= htmlspecialchars($komunikat) ?></p>
-    <?php endif; ?>
+            <?php if ($komunikat != ''): ?>
+                <p><?= htmlspecialchars($komunikat) ?></p>
+            <?php endif; ?>
 
-    <form method="POST" action="<?= basename($_SERVER['PHP_SELF']) ?>">
-        <button type="submit" name="utworz">Utwórz bazę i tabelę</button>
-    </form>
+            <form method="POST" action="<?= basename($_SERVER['PHP_SELF']) ?>">
+                <fieldset>
+                    <legend>Utwórz strukturę bazy danych</legend>
+                    <p>Kliknij przycisk, aby wykonać polecenia CREATE DATABASE i CREATE TABLE.</p>
+                    <button type="submit" name="utworz">Utwórz bazę i tabelę</button>
+                </fieldset>
+            </form>
+        </section>
+
+        <section>
+            <h2>Struktura tabeli gry</h2>
+
+            <table border="1">
+                <caption>Kolumny tabeli gry</caption>
+                <thead>
+                    <tr>
+                        <th>Kolumna</th>
+                        <th>Typ</th>
+                        <th>Opis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>INT, AUTO_INCREMENT, PK</td>
+                        <td>identyfikator gry</td>
+                    </tr>
+                    <tr>
+                        <td>tytul</td>
+                        <td>VARCHAR(100)</td>
+                        <td>tytuł gry, np. Wiedźmin 3</td>
+                    </tr>
+                    <tr>
+                        <td>gatunek</td>
+                        <td>VARCHAR(50)</td>
+                        <td>RPG, FPS, Strategia itp.</td>
+                    </tr>
+                    <tr>
+                        <td>platforma</td>
+                        <td>VARCHAR(50)</td>
+                        <td>PC, PlayStation 5, Xbox itp.</td>
+                    </tr>
+                    <tr>
+                        <td>rok_wydania</td>
+                        <td>YEAR</td>
+                        <td>rok premiery gry</td>
+                    </tr>
+                    <tr>
+                        <td>ocena</td>
+                        <td>DECIMAL(3,1)</td>
+                        <td>ocena od 0 do 10, np. 9.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
 
     <?php include 'footer.php'; ?>

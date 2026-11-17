@@ -31,33 +31,65 @@ if (isset($_POST['dodaj']) && $dbExists) {
 <body>
     <?php include 'nav.php'; ?>
 
-    <h1>Dodaj grę</h1>
+    <header>
+        <h1>Dodaj grę</h1>
+        <p>Wypełnij formularz, aby dodać nową grę do tabeli <strong>gry</strong>.</p>
+    </header>
 
-    <?php if (!$dbExists): ?>
-        <p>Baza danych jeszcze nie istnieje. Najpierw <a href="utworz.php">utwórz bazę i tabelę</a>.</p>
-    <?php else: ?>
-        <?php if ($komunikat != ''): ?>
-            <p><?= htmlspecialchars($komunikat) ?></p>
+    <main>
+        <?php if (!$dbExists): ?>
+            <section>
+                <h2>Baza danych nie istnieje</h2>
+                <p>
+                    Baza danych jeszcze nie istnieje. Najpierw
+                    <a href="utworz.php">utwórz bazę i tabelę</a>.
+                </p>
+            </section>
+        <?php else: ?>
+            <section>
+                <h2>Formularz nowej gry</h2>
+
+                <?php if ($komunikat != ''): ?>
+                    <p><?= htmlspecialchars($komunikat) ?></p>
+                <?php endif; ?>
+
+                <form method="POST" action="<?= basename($_SERVER['PHP_SELF']) ?>">
+                    <fieldset>
+                        <legend>Dane gry</legend>
+
+                        <p>
+                            <label for="tytul">Tytuł gry:</label><br>
+                            <input type="text" id="tytul" name="tytul" size="50">
+                        </p>
+
+                        <p>
+                            <label for="gatunek">Gatunek:</label><br>
+                            <input type="text" id="gatunek" name="gatunek" size="30">
+                            <small>np. RPG, FPS, Strategia</small>
+                        </p>
+
+                        <p>
+                            <label for="platforma">Platforma:</label><br>
+                            <input type="text" id="platforma" name="platforma" size="30">
+                            <small>np. PC, PlayStation 5, Xbox</small>
+                        </p>
+
+                        <p>
+                            <label for="rok_wydania">Rok wydania:</label><br>
+                            <input type="number" id="rok_wydania" name="rok_wydania">
+                        </p>
+
+                        <p>
+                            <label for="ocena">Ocena:</label><br>
+                            <input type="text" id="ocena" name="ocena" size="10">
+                            <small>ocena od 0 do 10, np. 9.5</small>
+                        </p>
+
+                        <button type="submit" name="dodaj">Dodaj grę</button>
+                    </fieldset>
+                </form>
+            </section>
         <?php endif; ?>
-
-        <form method="POST" action="<?= basename($_SERVER['PHP_SELF']) ?>">
-            <label for="tytul">Tytuł gry:</label>
-            <input type="text" id="tytul" name="tytul"><br>
-
-            <label for="gatunek">Gatunek:</label>
-            <input type="text" id="gatunek" name="gatunek"><br>
-
-            <label for="platforma">Platforma:</label>
-            <input type="text" id="platforma" name="platforma"><br>
-
-            <label for="rok_wydania">Rok wydania:</label>
-            <input type="number" id="rok_wydania" name="rok_wydania"><br>
-
-            <label for="ocena">Ocena:</label>
-            <input type="text" id="ocena" name="ocena"><br>
-
-            <button type="submit" name="dodaj">Dodaj grę</button>
-        </form>
-    <?php endif; ?>
+    </main>
 
     <?php include 'footer.php'; ?>
