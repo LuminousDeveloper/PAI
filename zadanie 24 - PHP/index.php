@@ -8,25 +8,18 @@
 <body>
     <?php include 'nav.php'; ?>
 
-    <main>
-        <h1>Baza gier komputerowych</h1>
+    <h1>Baza gier komputerowych</h1>
 
-        <p>
-            Prosta aplikacja internetowa do zarządzania kolekcją gier komputerowych.
-            Umożliwia dodawanie, przeglądanie, edytowanie oraz usuwanie gier zapisanych
-            w bazie danych MySQL. Wszystkie operacje CRUD wykonujemy za pomocą
-            rozszerzenia <strong>mysqli</strong>.
-        </p>
+    <p>
+        Prosta aplikacja do zarządzania kolekcją gier komputerowych.
+        Umożliwia dodawanie, wyświetlanie, edytowanie oraz usuwanie gier
+        zapisanych w bazie danych MySQL.
+    </p>
 
-        <h2>Dostępne operacje</h2>
-
-        <ul>
-            <li><a href="utworz.php">Utwórz bazę i tabelę</a></li>
-            <li><a href="dodaj.php">Dodaj grę</a></li>
-            <li><a href="lista.php">Lista gier</a></li>
-            <li><a href="edytuj.php">Edytuj grę</a></li>
-            <li><a href="usun.php">Usuń grę</a></li>
-        </ul>
-    </main>
+    <p><a href="utworz.php">Utwórz bazę i tabelę</a></p>
+    <p><a href="dodaj.php">Dodaj grę</a></p>
+    <p><a href="lista.php">Lista gier</a></p>
+    <p><a href="edytuj.php">Edytuj grę</a></p>
+    <p><a href="usun.php">Usuń grę</a></p>
 
     <?php include 'footer.php'; ?>

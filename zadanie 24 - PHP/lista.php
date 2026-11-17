@@ -2,19 +2,15 @@
 require_once 'db_connect.php';
 
 $komunikat = '';
-$typKomunikatu = '';
 $liczbaGier = 0;
 $wynik = false;
 
 if ($dbExists) {
-    $sql = "SELECT * FROM gry ORDER BY id";
+    $sql = "SELECT * FROM gry";
     $wynik = mysqli_query($conn, $sql);
 
-    if ($wynik) {
-        $liczbaGier = mysqli_num_rows($wynik);
-    } else {
-        $komunikat = "Błąd pobierania listy gier: " . mysqli_error($conn);
-        $typKomunikatu = "blad";
+    if (!$wynik) {
+        $komunikat = "Błąd pobierania gier: " . mysqli_error($conn);
     }
 }
 ?>
@@ -29,53 +25,37 @@ if ($dbExists) {
 <body>
     <?php include 'nav.php'; ?>
 
-    <main>
-        <h1>Lista gier</h1>
+    <h1>Lista gier</h1>
 
-        <?php if (!$dbExists): ?>
-            <p>
-                Baza danych jeszcze nie istnieje. Najpierw
-                <a href="utworz.php">utwórz bazę i tabelę</a>.
-            </p>
-        <?php else: ?>
-            <?php if ($komunikat !== ''): ?>
-                <p>
-                    <?= htmlspecialchars($komunikat) ?>
-                </p>
-            <?php else: ?>
-                <p>
-                    Liczba gier w bazie: <strong><?= $liczbaGier ?></strong>
-                </p>
+    <?php if (!$dbExists): ?>
+        <p>Baza danych jeszcze nie istnieje. Najpierw <a href="utworz.php">utwórz bazę i tabelę</a>.</p>
+    <?php elseif ($komunikat != ''): ?>
+        <p><?= htmlspecialchars($komunikat) ?></p>
+    <?php else: ?>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Tytuł</th>
+                <th>Gatunek</th>
+                <th>Platforma</th>
+                <th>Rok wydania</th>
+                <th>Ocena</th>
+            </tr>
 
-                <?php if ($liczbaGier === 0): ?>
-                    <p>Baza jest pusta. <a href="dodaj.php">Dodaj pierwszą grę</a>.</p>
-                <?php else: ?>
-                    <table border="1">
-                        <tr>
-                            <th>ID</th>
-                            <th>Tytuł</th>
-                            <th>Gatunek</th>
-                            <th>Platforma</th>
-                            <th>Rok wydania</th>
-                            <th>Ocena</th>
-                            <th>Akcja</th>
-                        </tr>
+            <?php while ($row = mysqli_fetch_assoc($wynik)): ?>
+                <?php $liczbaGier++; ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['id']) ?></td>
+                    <td><?= htmlspecialchars($row['tytul']) ?></td>
+                    <td><?= htmlspecialchars($row['gatunek']) ?></td>
+                    <td><?= htmlspecialchars($row['platforma']) ?></td>
+                    <td><?= htmlspecialchars($row['rok_wydania']) ?></td>
+                    <td><?= htmlspecialchars($row['ocena']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
 
-                        <?php while ($row = mysqli_fetch_assoc($wynik)): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($row['id']) ?></td>
-                                <td><?= htmlspecialchars($row['tytul']) ?></td>
-                                <td><?= htmlspecialchars($row['gatunek']) ?></td>
-                                <td><?= htmlspecialchars($row['platforma']) ?></td>
-                                <td><?= htmlspecialchars($row['rok_wydania']) ?></td>
-                                <td><?= htmlspecialchars($row['ocena']) ?></td>
-                                <td><a href="edytuj.php?id=<?= (int) $row['id'] ?>">Edytuj</a></td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </table>
-                <?php endif; ?>
-            <?php endif; ?>
-        <?php endif; ?>
-    </main>
+        <p>Liczba gier: <?= $liczbaGier ?></p>
+    <?php endif; ?>
 
     <?php include 'footer.php'; ?>

@@ -1,26 +1,24 @@
 <?php
-// db_connect.php - połączenie z serwerem MySQL przez mysqli
-
 $host = "localhost";
 $username = "root";
 $password = "";
 $database = "gry_db";
 
-// Wyłączenie automatycznych wyjątków mysqli - błędy obsługujemy komunikatami
-mysqli_report(MYSQLI_REPORT_OFF);
-
-// Połączenie z serwerem MySQL
-$conn = @mysqli_connect($host, $username, $password);
+$conn = mysqli_connect($host, $username, $password);
 
 if (!$conn) {
-    die("Połączenie z serwerem MySQL nie powiodło się: " . mysqli_connect_error());
+    die("Połączenie nie powiodło się.");
 }
 
-// Wybranie bazy gry_db (jeżeli jeszcze nie istnieje, $dbExists ma wartość false)
 $dbExists = false;
 
-if (mysqli_select_db($conn, $database)) {
+$sql = "SHOW DATABASES LIKE '$database'";
+$wynik = mysqli_query($conn, $sql);
+
+if ($wynik && mysqli_fetch_assoc($wynik)) {
     $dbExists = true;
-    mysqli_set_charset($conn, "utf8mb4");
+
+    $sql = "USE $database";
+    mysqli_query($conn, $sql);
 }
 ?>
