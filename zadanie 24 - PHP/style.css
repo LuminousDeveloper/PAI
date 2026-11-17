@@ -1,223 +1,24 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-    background-color: #f1f5f9;
-    color: #1e293b;
-    line-height: 1.6;
-}
-
 .container {
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 30% 70%;
     grid-template-areas:
         "naglowek naglowek"
         "bok glowny"
         "stopka stopka";
-    grid-template-rows: auto 1fr auto;
-    gap: 24px;
-    max-width: 1200px;
-    min-height: 100vh;
-    margin: 0 auto;
-    padding: 24px;
 }
 
 header {
     grid-area: naglowek;
-    padding: 28px 32px;
-    background-color: #0f172a;
-    color: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
-}
-
-header h1 {
-    margin: 0 0 8px;
-    font-size: 1.8rem;
-}
-
-header p {
-    margin: 0;
-    color: #cbd5e1;
 }
 
 aside {
     grid-area: bok;
-    align-self: start;
-    position: sticky;
-    top: 24px;
-    padding: 16px;
-    background-color: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
-}
-
-nav ul {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-nav a {
-    display: block;
-    padding: 10px 14px;
-    color: #334155;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-nav a:hover {
-    background-color: #e0f2fe;
-    color: #0369a1;
-}
-
-nav a.active {
-    background-color: #0ea5e9;
-    color: #ffffff;
 }
 
 main {
     grid-area: glowny;
-    min-width: 0;
-    padding: 28px 32px;
-    background-color: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
-    overflow-x: auto;
 }
 
 footer {
     grid-area: stopka;
-}
-
-h2 {
-    margin-top: 28px;
-    color: #0f172a;
-}
-
-h2:first-child {
-    margin-top: 0;
-}
-
-a {
-    color: #0369a1;
-}
-
-table {
-    width: 100%;
-    margin: 14px 0;
-    border: 0;
-    border-collapse: collapse;
-}
-
-caption {
-    padding-bottom: 10px;
-    color: #475569;
-    font-weight: 700;
-    text-align: left;
-}
-
-th,
-td {
-    padding: 10px 12px;
-    border: 1px solid #e2e8f0;
-    text-align: left;
-}
-
-th {
-    background-color: #f8fafc;
-    color: #0f172a;
-}
-
-tbody tr:hover {
-    background-color: #f8fafc;
-}
-
-tfoot td {
-    font-weight: 700;
-}
-
-form {
-    margin: 18px 0;
-}
-
-fieldset {
-    margin: 0;
-    padding: 20px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-}
-
-legend {
-    padding: 0 8px;
-    color: #0f172a;
-    font-weight: 700;
-}
-
-label {
-    color: #334155;
-    font-weight: 600;
-}
-
-input {
-    width: min(100%, 420px);
-    margin-top: 4px;
-    padding: 10px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font: inherit;
-}
-
-input:focus {
-    border-color: #0ea5e9;
-    outline: 2px solid #bae6fd;
-}
-
-button {
-    margin-top: 10px;
-    padding: 10px 18px;
-    background-color: #0ea5e9;
-    color: #ffffff;
-    border: 0;
-    border-radius: 8px;
-    font: inherit;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0284c7;
-}
-
-small {
-    display: block;
-    margin-top: 4px;
-    color: #64748b;
-}
-
-@media (max-width: 800px) {
-    .container {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "naglowek"
-            "bok"
-            "glowny"
-            "stopka";
-        padding: 16px;
-    }
-
-    aside {
-        position: static;
-    }
-
-    main {
-        padding: 22px;
-    }
 }
