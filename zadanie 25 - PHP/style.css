@@ -1,0 +1,70 @@
+html, body {
+    height: 100%
+}
+
+
+div {
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    grid-template-areas: 
+    "header header header"
+    "nav section aside"
+    "footer footer footer";
+}
+
+.section {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-areas:
+    "section-header"
+    "section-article"
+    "section-footer";
+}
+
+.header {
+    grid-area: header;
+    background-color: red;
+    height: 300px;
+}
+
+.nav {
+    grid-area: nav;
+    background-color: blue;
+    height: 500px;
+}
+
+.aside {
+    grid-area: aside;
+    background-color: green;
+    height: 500px;
+}
+
+.section {
+    grid-area: section;
+    background-color: grey;
+    height: 500px;
+}
+
+.section-header {
+    grid-area: section-header;
+    height: 125px;
+    background-color: pink;
+}
+
+.section-article {
+    grid-area: section-article;
+    height: 250px;
+    background-color: purple;
+}
+
+.section-footer {
+    grid-area: section-footer;
+    height: 125px;
+    background-color: yellow;
+}
+
+.footer {
+    grid-area: footer;
+    background-color: brown;
+    height: 300px;
+}
