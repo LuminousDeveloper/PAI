@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="produkt">
+    <button onclick="dodaj()">Dodaj</button>
+    <ul id="lista"></ul>
+    <p id="licznik">Liczba produktów: 0</p>
+    <script>
+    function dodaj(){
+        let pole = document.getElementById("produkt");
+        let tekst = pole.value.trim();
+        if(tekst == ""){
+            return;
+        }
+        let lista = document.getElementById("lista");
+        let element = document.createElement("li");
+        element.textContent = tekst;
+        lista.appendChild(element);
+        pole.value = "";
+        document.getElementById("licznik").innerHTML = 
+        "Liczba produktów: " + lista.children.length
+    }
+    </script>
+</body>
+</html>

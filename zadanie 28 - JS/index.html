@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .przekatna {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <input type="number" id="n">
+    <button id="generuj">Generuj</button>
+    <div id="tabela"></div>
+    <script>
+        document.getElementById("generuj").addEventListener("click", function(){
+            const kontener = document.getElementById("tabela");
+            kontener.innerHTML = "";
+
+            const n = Number(document.getElementById("n").value);
+
+            if (n < 1 || n > 10){
+                kontener.textContent = "Podaj liczbę od 1 do 10";
+                return;
+            }
+            const table = document.createElement("table");
+            for (let i = 1; i <= n; i++) {
+                const tr = document.createElement("tr");
+                for (let j = 1; j <= n; j++) {
+                    const td = document.createElement("td");
+                    td.textContent = i * j;
+                    if (i === j) {
+                        td.className = "przekatna";
+                    }
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+            kontener.appendChild(table);
+        });
+        
+    </script>
+</body>
+</html>
